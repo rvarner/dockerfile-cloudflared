@@ -12,7 +12,7 @@ WORKDIR /go/src/github.com/cloudflare/cloudflared/cmd/cloudflared
 
 RUN GOARCH=${GOARCH} GOARM=${GOARM} go build ./
 
-FROM scratch
+FROM ubuntu:16.04
 
 LABEL maintainer="Reid Varner"
 
@@ -28,4 +28,4 @@ HEALTHCHECK --interval=5s --timeout=3s --start-period=5s CMD nslookup -po=5054 c
 
 USER cloudflared
 
-CMD ["/bin/sh", "-c", "/usr/local/bin/cloudflared proxy-dns --address 0.0.0.0 --port 5054 --upstream https://${DNS1}/.well-known/dns-query --upstream https://${DNS2}/.well-known/dns-query"]
+CMD ["/usr/local/bin/cloudflared proxy-dns --address 0.0.0.0 --port 5054 --upstream https://${DNS1}/.well-known/dns-query --upstream https://${DNS2}/.well-known/dns-query"]
